@@ -12,61 +12,67 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 10px;
 }
 
 .container {
     width: 100%;
     max-width: 800px;
-    padding: 20px;
+    padding: 15px;
 }
 
 /* Login Section */
 .login-box {
     background: #2d2d2d;
-    padding: 30px;
+    padding: 20px;
     border-radius: 10px;
     text-align: center;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    margin: 10px;
 }
 
 .login-icon {
-    font-size: 50px;
+    font-size: 40px;
     color: #007bff;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .login-box h2 {
     color: #fff;
-    margin-bottom: 20px;
-    font-size: 24px;
+    margin-bottom: 15px;
+    font-size: 20px;
 }
 
 /* Main Section */
 .header {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px;
-    padding: 20px;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 15px;
     background: #2d2d2d;
     border-radius: 10px;
 }
 
 .header h1 {
     color: #007bff;
-    font-size: 24px;
+    font-size: 20px;
+    margin-right: 10px;
 }
 
 .logout-btn {
     background: #dc3545;
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 8px 15px;
     border-radius: 5px;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
+    font-size: 14px;
 }
 
 .logout-btn:hover {
@@ -76,18 +82,20 @@ body {
 /* Input Groups */
 .input-group {
     display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 15px;
 }
 
 input {
     flex: 1;
-    padding: 12px;
+    min-width: 200px;
+    padding: 10px;
     border: none;
     border-radius: 5px;
     background: #2d2d2d;
     color: #fff;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 input::placeholder {
@@ -95,16 +103,17 @@ input::placeholder {
 }
 
 button {
-    padding: 12px 24px;
+    padding: 10px 20px;
     border: none;
     border-radius: 5px;
     background: #007bff;
     color: white;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 14px;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
+    white-space: nowrap;
 }
 
 button:hover {
@@ -115,20 +124,21 @@ button:hover {
 .numbers-list-section {
     background: #2d2d2d;
     border-radius: 10px;
-    padding: 20px;
-    margin-top: 20px;
+    padding: 15px;
+    margin-top: 15px;
 }
 
 .numbers-list-section h2 {
     color: #007bff;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
+    font-size: 18px;
 }
 
 .number-container {
-    max-height: 400px;
+    max-height: 300px;
     overflow-y: auto;
 }
 
@@ -137,12 +147,15 @@ button:hover {
 }
 
 #number-list li {
-    padding: 12px;
+    padding: 10px;
     border-bottom: 1px solid #404040;
     color: #fff;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 14px;
 }
 
 #number-list li:last-child {
@@ -151,7 +164,7 @@ button:hover {
 
 /* Scrollbar Styling */
 ::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -160,9 +173,65 @@ button:hover {
 
 ::-webkit-scrollbar-thumb {
     background: #007bff;
-    border-radius: 4px;
+    border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
     background: #0056b3;
+}
+
+/* Media Queries untuk Responsive Design */
+@media (max-width: 480px) {
+    .container {
+        padding: 10px;
+    }
+
+    .header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .header h1 {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .input-group {
+        flex-direction: column;
+    }
+
+    input {
+        min-width: 100%;
+    }
+
+    button {
+        width: 100%;
+        justify-content: center;
+    }
+
+    #number-list li {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .number-index {
+        margin-top: 5px;
+    }
+}
+
+/* Dark mode optimization */
+@media (prefers-color-scheme: dark) {
+    body {
+        background: #000;
+    }
+
+    .login-box,
+    .header,
+    .numbers-list-section {
+        background: #1a1a1a;
+    }
+
+    input {
+        background: #1a1a1a;
+    }
 }
