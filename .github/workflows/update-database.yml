@@ -1,0 +1,25 @@
+name: Update Database
+
+on:
+  repository_dispatch:
+    types: [update-database]
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Update database
+        run: |
+          echo '${{ github.event.client_payload.data }}' > database.json
+          
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add database.json
+          git commit -m "Update database: ${{ github.event.client_payload.message }}"
+          git push
