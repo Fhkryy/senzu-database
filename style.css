@@ -14,11 +14,18 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.add-number-section,
+.numbers-list-section {
+    margin-bottom: 30px;
+}
+
 input {
     padding: 8px;
     margin: 10px 0;
     width: 100%;
     box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 4px;
 }
 
 button {
@@ -29,6 +36,7 @@ button {
     border-radius: 4px;
     cursor: pointer;
     margin: 10px 0;
+    transition: background-color 0.3s;
 }
 
 button:hover {
@@ -43,4 +51,8 @@ ul {
 li {
     padding: 8px;
     border-bottom: 1px solid #eee;
+}
+
+li:last-child {
+    border-bottom: none;
 }
