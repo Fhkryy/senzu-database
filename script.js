@@ -20,7 +20,6 @@ async function checkPassword() {
     if (passwordInput === CORRECT_PASSWORD) {
         document.getElementById('login-section').style.display = 'none';
         document.getElementById('main-section').style.display = 'block';
-        // Simpan status login
         localStorage.setItem('isLoggedIn', 'true');
         await loadNumbers();
     } else {
@@ -33,7 +32,6 @@ function logout() {
     document.getElementById('main-section').style.display = 'none';
     document.getElementById('login-section').style.display = 'block';
     document.getElementById('password-input').value = '';
-    // Hapus status login
     localStorage.removeItem('isLoggedIn');
 }
 
@@ -44,16 +42,23 @@ async function addNumber() {
     
     if (number) {
         try {
+            alert('Memulai proses update...');
             // Ambil konten database saat ini
             const response = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/database.json`);
+            if (!response.ok) {
+                throw new Error(`GitHub API Error: ${response.status}`);
+            }
+            alert('Berhasil mengambil database');
+            
             const data = await response.json();
             const content = JSON.parse(atob(data.content));
             
             // Update nomor
             content.nomor = number;
             
+            alert('Mengirim update ke GitHub...');
             // Trigger GitHub Action untuk update database
-            await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/dispatches`, {
+            const actionResponse = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/dispatches`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${GITHUB_TOKEN}`,
@@ -67,12 +72,16 @@ async function addNumber() {
                     }
                 })
             });
+
+            if (!actionResponse.ok) {
+                throw new Error(`GitHub Action Error: ${actionResponse.status}`);
+            }
             
+            alert('Update berhasil!');
             numberInput.value = '';
             await loadNumbers();
         } catch (error) {
-            console.error('Error:', error);
-            alert('Gagal mengupdate nomor. Silakan coba lagi.');
+            alert('Error detail: ' + error.message);
         }
     }
 }
@@ -81,6 +90,10 @@ async function addNumber() {
 async function loadNumbers() {
     try {
         const response = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/database.json`);
+        if (!response.ok) {
+            throw new Error(`GitHub API Error: ${response.status}`);
+        }
+        
         const data = await response.json();
         const content = JSON.parse(atob(data.content));
         
@@ -94,8 +107,7 @@ async function loadNumbers() {
         `;
         numberList.appendChild(li);
     } catch (error) {
-        console.error('Error:', error);
-        alert('Gagal memuat nomor. Silakan coba lagi.');
+        alert('Error saat memuat nomor: ' + error.message);
     }
 }
 
