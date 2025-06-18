@@ -1,6 +1,6 @@
 // Konfigurasi
 const CORRECT_PASSWORD = "Fhkryy";  // Ganti dengan password yang diinginkan
-const GITHUB_TOKEN = "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";       // Ganti dengan GitHub Personal Access Token Anda
+const GITHUB_TOKEN = "token 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";       // Ganti dengan GitHub Personal Access Token Anda
 const OWNER = "Fhkryy";                        // Username GitHub Anda
 const REPO = "senzu-database";                 // Nama repository Anda
 
