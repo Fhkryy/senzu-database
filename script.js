@@ -4,12 +4,24 @@ const GITHUB_TOKEN = "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";       // Ganti 
 const OWNER = "Fhkryy";                        // Username GitHub Anda
 const REPO = "senzu-database";                 // Nama repository Anda
 
+// Cek status login saat halaman dimuat
+window.onload = async function() {
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+    if (isLoggedIn === 'true') {
+        document.getElementById('login-section').style.display = 'none';
+        document.getElementById('main-section').style.display = 'block';
+        await loadNumbers();
+    }
+}
+
 // Cek password
 async function checkPassword() {
     const passwordInput = document.getElementById('password-input').value;
     if (passwordInput === CORRECT_PASSWORD) {
         document.getElementById('login-section').style.display = 'none';
         document.getElementById('main-section').style.display = 'block';
+        // Simpan status login
+        localStorage.setItem('isLoggedIn', 'true');
         await loadNumbers();
     } else {
         alert('Password salah!');
@@ -21,6 +33,8 @@ function logout() {
     document.getElementById('main-section').style.display = 'none';
     document.getElementById('login-section').style.display = 'block';
     document.getElementById('password-input').value = '';
+    // Hapus status login
+    localStorage.removeItem('isLoggedIn');
 }
 
 // Update nomor di database
