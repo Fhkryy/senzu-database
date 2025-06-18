@@ -1,10 +1,10 @@
-// Configuration
-const CORRECT_PASSWORD = "your_password_here";  // Change this to your desired password
-const GITHUB_TOKEN = "YOUR_GITHUB_TOKEN";       // Replace with your GitHub Personal Access Token
-const OWNER = "Fhkryy";                        // Your GitHub username
-const REPO = "number-database-website";         // Your repository name
+// Konfigurasi
+const CORRECT_PASSWORD = "your_password_here";  // Ganti dengan password yang diinginkan
+const GITHUB_TOKEN = "YOUR_GITHUB_TOKEN";       // Ganti dengan GitHub Personal Access Token Anda
+const OWNER = "Fhkryy";                        // Username GitHub Anda
+const REPO = "senzu-database";                 // Nama repository Anda
 
-// Check password
+// Cek password
 async function checkPassword() {
     const passwordInput = document.getElementById('password-input').value;
     if (passwordInput === CORRECT_PASSWORD) {
@@ -12,26 +12,26 @@ async function checkPassword() {
         document.getElementById('main-section').style.display = 'block';
         await loadNumbers();
     } else {
-        alert('Incorrect password!');
+        alert('Password salah!');
     }
 }
 
-// Add number to database
+// Tambah angka ke database
 async function addNumber() {
     const numberInput = document.getElementById('number-input');
     const number = numberInput.value;
     
     if (number) {
         try {
-            // Get current database content
+            // Ambil konten database saat ini
             const response = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/database.json`);
             const data = await response.json();
             const content = JSON.parse(atob(data.content));
             
-            // Add new number
+            // Tambah angka baru
             content.numbers.push(number);
             
-            // Trigger GitHub Action to update database
+            // Trigger GitHub Action untuk update database
             await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/dispatches`, {
                 method: 'POST',
                 headers: {
@@ -42,24 +42,24 @@ async function addNumber() {
                     event_type: 'update-database',
                     client_payload: {
                         data: JSON.stringify(content, null, 2),
-                        message: `Add number: ${number}`
+                        message: `Tambah angka: ${number}`
                     }
                 })
             });
             
             numberInput.value = '';
-            alert('Number added successfully!');
+            alert('Angka berhasil ditambahkan!');
             
-            // Wait a bit for GitHub Action to complete before reloading
+            // Tunggu sebentar untuk GitHub Action selesai sebelum memuat ulang
             setTimeout(loadNumbers, 2000);
         } catch (error) {
             console.error('Error:', error);
-            alert('Failed to add number. Please try again.');
+            alert('Gagal menambahkan angka. Silakan coba lagi.');
         }
     }
 }
 
-// Load numbers from database
+// Muat angka dari database
 async function loadNumbers() {
     try {
         const response = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/database.json`);
@@ -76,6 +76,6 @@ async function loadNumbers() {
         });
     } catch (error) {
         console.error('Error:', error);
-        alert('Failed to load numbers. Please try again.');
+        alert('Gagal memuat daftar angka. Silakan coba lagi.');
     }
 }
