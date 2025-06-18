@@ -3,29 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Database Angka</title>
+    <title>Senzu Database</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
         <!-- Bagian Password -->
         <div id="login-section">
-            <h2>Masukkan Password</h2>
-            <input type="password" id="password-input" placeholder="Masukkan password">
-            <button onclick="checkPassword()">Masuk</button>
+            <div class="login-box">
+                <i class="fas fa-lock login-icon"></i>
+                <h2>Access Panel</h2>
+                <div class="input-group">
+                    <input type="password" id="password-input" placeholder="Enter Password">
+                    <button onclick="checkPassword()">Submit</button>
+                </div>
+            </div>
         </div>
 
-        <!-- Bagian Utama (Tersembunyi sampai password benar) -->
+        <!-- Bagian Utama -->
         <div id="main-section" style="display: none;">
+            <div class="header">
+                <h1>Senzu Database</h1>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+
             <div class="add-number-section">
-                <h2>Tambah Angka</h2>
-                <input type="number" id="number-input" placeholder="Masukkan angka">
-                <button onclick="addNumber()">Tambah</button>
+                <div class="input-group">
+                    <input type="number" id="number-input" placeholder="Enter Number">
+                    <button onclick="addNumber()">
+                        <i class="fas fa-plus"></i> Add
+                    </button>
+                </div>
             </div>
 
             <div class="numbers-list-section">
-                <h2>Daftar Angka Tersimpan</h2>
-                <ul id="number-list"></ul>
+                <h2><i class="fas fa-database"></i> Database Numbers</h2>
+                <div class="number-container">
+                    <ul id="number-list"></ul>
+                </div>
             </div>
         </div>
     </div>
