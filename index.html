@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Database</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div id="login-section">
+            <h2>Enter Password</h2>
+            <input type="password" id="password-input" placeholder="Enter password">
+            <button onclick="checkPassword()">Submit</button>
+        </div>
+
+        <div id="main-section" style="display: none;">
+            <h2>Add Number</h2>
+            <input type="number" id="number-input" placeholder="Enter a number">
+            <button onclick="addNumber()">Add Number</button>
+
+            <h2>Stored Numbers</h2>
+            <ul id="number-list"></ul>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+              </html>
