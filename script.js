@@ -16,7 +16,14 @@ async function checkPassword() {
     }
 }
 
-// Tambah angka ke database
+// Fungsi logout
+function logout() {
+    document.getElementById('main-section').style.display = 'none';
+    document.getElementById('login-section').style.display = 'block';
+    document.getElementById('password-input').value = '';
+}
+
+// Update nomor di database
 async function addNumber() {
     const numberInput = document.getElementById('number-input');
     const number = numberInput.value;
@@ -28,8 +35,8 @@ async function addNumber() {
             const data = await response.json();
             const content = JSON.parse(atob(data.content));
             
-            // Tambah angka baru
-            content.numbers.push(number);
+            // Update nomor
+            content.nomor = number;
             
             // Trigger GitHub Action untuk update database
             await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/dispatches`, {
@@ -42,24 +49,21 @@ async function addNumber() {
                     event_type: 'update-database',
                     client_payload: {
                         data: JSON.stringify(content, null, 2),
-                        message: `Tambah angka: ${number}`
+                        message: `Update nomor: ${number}`
                     }
                 })
             });
             
             numberInput.value = '';
-            alert('Angka berhasil ditambahkan!');
-            
-            // Tunggu sebentar untuk GitHub Action selesai sebelum memuat ulang
-            setTimeout(loadNumbers, 2000);
+            await loadNumbers();
         } catch (error) {
             console.error('Error:', error);
-            alert('Gagal menambahkan angka. Silakan coba lagi.');
+            alert('Gagal mengupdate nomor. Silakan coba lagi.');
         }
     }
 }
 
-// Muat angka dari database
+// Muat nomor dari database
 async function loadNumbers() {
     try {
         const response = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/database.json`);
@@ -69,13 +73,28 @@ async function loadNumbers() {
         const numberList = document.getElementById('number-list');
         numberList.innerHTML = '';
         
-        content.numbers.forEach(number => {
-            const li = document.createElement('li');
-            li.textContent = number;
-            numberList.appendChild(li);
-        });
+        const li = document.createElement('li');
+        li.innerHTML = `
+            <span>${content.nomor}</span>
+            <span class="number-index">Current Number</span>
+        `;
+        numberList.appendChild(li);
     } catch (error) {
         console.error('Error:', error);
-        alert('Gagal memuat daftar angka. Silakan coba lagi.');
+        alert('Gagal memuat nomor. Silakan coba lagi.');
     }
 }
+
+// Enter key untuk submit password
+document.getElementById('password-input').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        checkPassword();
+    }
+});
+
+// Enter key untuk submit angka
+document.getElementById('number-input').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        addNumber();
+    }
+});
