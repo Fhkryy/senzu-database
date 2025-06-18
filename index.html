@@ -8,21 +8,27 @@
 </head>
 <body>
     <div class="container">
+        <!-- Password Section -->
         <div id="login-section">
             <h2>Enter Password</h2>
             <input type="password" id="password-input" placeholder="Enter password">
             <button onclick="checkPassword()">Submit</button>
         </div>
 
+        <!-- Main Section (Hidden until password is correct) -->
         <div id="main-section" style="display: none;">
-            <h2>Add Number</h2>
-            <input type="number" id="number-input" placeholder="Enter a number">
-            <button onclick="addNumber()">Add Number</button>
+            <div class="add-number-section">
+                <h2>Add Number</h2>
+                <input type="number" id="number-input" placeholder="Enter a number">
+                <button onclick="addNumber()">Add Number</button>
+            </div>
 
-            <h2>Stored Numbers</h2>
-            <ul id="number-list"></ul>
+            <div class="numbers-list-section">
+                <h2>Stored Numbers</h2>
+                <ul id="number-list"></ul>
+            </div>
         </div>
     </div>
     <script src="script.js"></script>
 </body>
-              </html>
+</html>
