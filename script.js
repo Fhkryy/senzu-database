@@ -1,8 +1,8 @@
 // Konfigurasi
-const CORRECT_PASSWORD = "Fhkryy";  // Ganti dengan password yang diinginkan
-const GITHUB_TOKEN = "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";       // Ganti dengan GitHub Personal Access Token Anda
-const OWNER = "Fhkryy";                        // Username GitHub Anda
-const REPO = "senzu-database";                 // Nama repository Anda
+const CORRECT_PASSWORD = "tes";  // Ganti dengan password Anda
+const GITHUB_TOKEN = "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";  // Token GitHub Anda
+const OWNER = "Fhkryy";
+const REPO = "senzu-database";
 
 // Update nomor di database
 async function addNumber() {
