@@ -1,6 +1,6 @@
 // Konfigurasi
-const CORRECT_PASSWORD = "tes";  // Ganti dengan password Anda
-const GITHUB_TOKEN = "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";  // Token GitHub Anda
+const CORRECT_PASSWORD = "senzu"; // Password untuk login
+const GITHUB_TOKEN = "YOUR_TOKEN_HERE"; // Ganti dengan token GitHub Anda
 const OWNER = "Fhkryy";
 const REPO = "senzu-database";
 
@@ -38,55 +38,48 @@ function logout() {
 // Update nomor di database
 async function addNumber() {
     const numberInput = document.getElementById('number-input');
-    if (!numberInput) {
-        alert('Error: Input field tidak ditemukan');
-        return;
-    }
-
-    const number = numberInput.value;
+    const number = numberInput.value.trim();
+    
     if (!number) {
         alert('Silakan masukkan nomor');
         return;
     }
 
     try {
-        // Ambil konten database saat ini
-        const response = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/database.json`, {
+        // Get current file content
+        const getResponse = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/database.json`, {
             headers: {
                 'Authorization': `token ${GITHUB_TOKEN}`,
                 'Accept': 'application/vnd.github.v3+json'
             }
         });
         
-        if (!response.ok) {
-            throw new Error(`GitHub API Error: ${response.status}`);
+        if (!getResponse.ok) {
+            throw new Error(`Failed to get file: ${getResponse.status}`);
         }
-
-        const data = await response.json();
-        const content = JSON.parse(atob(data.content));
         
-        // Update nomor
-        content.nomor = number;
+        const fileData = await getResponse.json();
+        const content = {
+            nomor: number
+        };
         
-        // Trigger GitHub Action untuk update database
-        const actionResponse = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/dispatches`, {
-            method: 'POST',
+        // Update file
+        const updateResponse = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/database.json`, {
+            method: 'PUT',
             headers: {
                 'Authorization': `token ${GITHUB_TOKEN}`,
                 'Accept': 'application/vnd.github.v3+json',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                event_type: 'update-database',
-                client_payload: {
-                    data: JSON.stringify(content, null, 2),
-                    message: `Update nomor: ${number}`
-                }
+                message: `Update nomor: ${number}`,
+                content: btoa(JSON.stringify(content, null, 2)),
+                sha: fileData.sha
             })
         });
-
-        if (!actionResponse.ok) {
-            throw new Error(`GitHub Action Error: ${actionResponse.status}`);
+        
+        if (!updateResponse.ok) {
+            throw new Error(`Failed to update: ${updateResponse.status}`);
         }
         
         numberInput.value = '';
@@ -94,6 +87,7 @@ async function addNumber() {
         alert('Nomor berhasil diupdate!');
     } catch (error) {
         alert('Error: ' + error.message);
+        console.error(error);
     }
 }
 
@@ -115,10 +109,6 @@ async function loadNumbers() {
         const content = JSON.parse(atob(data.content));
         
         const numberList = document.getElementById('number-list');
-        if (!numberList) {
-            throw new Error('Element number-list tidak ditemukan');
-        }
-        
         numberList.innerHTML = '';
         
         const li = document.createElement('li');
